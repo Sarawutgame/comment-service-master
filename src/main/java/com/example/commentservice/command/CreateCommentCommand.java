@@ -9,13 +9,14 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 public class CreateCommentCommand {
 
     @TargetAggregateIdentifier
-    private final String commentId;
+    private final String _id;
     private final String user;
     private final String userid;
-    private final Integer rating;
+    private final int rating;
     private final String description;
     private final String recommendMenu;
     private final String imageId;
     private final String time;
-    private final Integer like;
+    private final int like;
+    private final String reviewId;
 }

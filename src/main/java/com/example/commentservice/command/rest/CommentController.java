@@ -1,4 +1,4 @@
-package com.example.commentservice.rest;
+package com.example.commentservice.command.rest;
 
 import com.example.commentservice.command.CreateCommentCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -24,14 +24,16 @@ public class CommentController {
     @PostMapping
     public String createComment(@RequestBody CreateCommentModel model){
         CreateCommentCommand command = CreateCommentCommand.builder()
-                .commentId(UUID.randomUUID().toString())
+                ._id(UUID.randomUUID().toString())
                 .user(model.getUser())
                 .userid(model.getUserid())
                 .rating(model.getRating())
+                .recommendMenu(model.getRecommendMenu())
                 .description(model.getDescription())
                 .imageId(model.getImageId())
                 .time(model.getTime())
-                .like(model.getLike()).build();
+                .like(model.getLike())
+                .reviewId(model.getReviewId()).build();
 
         String result;
         try{

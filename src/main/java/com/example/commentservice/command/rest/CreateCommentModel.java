@@ -1,4 +1,4 @@
-package com.example.commentservice.rest;
+package com.example.commentservice.command.rest;
 
 import lombok.Data;
 
@@ -6,10 +6,11 @@ import lombok.Data;
 public class CreateCommentModel {
     private String user;
     private String userid;
-    private Integer rating;
+    private int rating;
     private String description;
     private String recommendMenu;
     private String imageId;
     private String time;
-    private Integer like;
+    private int like;
+    private String reviewId;
 }
