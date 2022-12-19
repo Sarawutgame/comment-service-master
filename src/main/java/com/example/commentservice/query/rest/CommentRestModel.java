@@ -14,6 +14,6 @@ public class CommentRestModel {
     private String time;
     private int like;
     private String reviewId;
-    private boolean report;
+    private int report;
     private boolean ban;
 }

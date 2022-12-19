@@ -22,7 +22,7 @@ public class CommentAggregate {
     private String time;
     private Integer like;
     private String reviewId;
-    private boolean report;
+    private int report;
     private boolean ban;
 
     public CommentAggregate() {
@@ -66,7 +66,7 @@ public class CommentAggregate {
         this.time = commentCreatedEvent.getTime();
         this.like = commentCreatedEvent.getLike();
         this.reviewId = commentCreatedEvent.getReviewId();
-        this.report = commentCreatedEvent.isReport();
+        this.report = commentCreatedEvent.getReport();
         this.ban = commentCreatedEvent.isBan();
     }
 
@@ -82,7 +82,7 @@ public class CommentAggregate {
         this.time = commentUpdatedEvent.getTime();
         this.like = commentUpdatedEvent.getLike();
         this.reviewId = commentUpdatedEvent.getReviewId();
-        this.report = commentUpdatedEvent.isReport();
+        this.report = commentUpdatedEvent.getReport();
         this.ban = commentUpdatedEvent.isBan();
     }
 }

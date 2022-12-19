@@ -19,6 +19,6 @@ public class CreateCommentCommand {
     private final String time;
     private final int like;
     private final String reviewId;
-    private final boolean report;
+    private final int report;
     private final boolean ban;
 }

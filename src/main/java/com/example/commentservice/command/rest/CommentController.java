@@ -33,7 +33,7 @@ public class CommentController {
                 .like(model.getLike())
                 .reviewId(model.getReviewId())
                 .ban(model.isBan())
-                .report(model.isReport())
+                .report(model.getReport())
                 .build();
 
         String result;
@@ -60,7 +60,7 @@ public class CommentController {
                 .like(model.getLike())
                 .reviewId(model.getReviewId())
                 .ban(model.isBan())
-                .report(model.isReport())
+                .report(model.getReport())
                 .build();
         String result;
         try{

@@ -28,6 +28,6 @@ public class CommentEntity implements Serializable {
     private String time;
     private int like;
     private String reviewId;
-    private boolean report;
+    private int report;
     private boolean ban;
 }
