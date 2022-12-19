@@ -11,7 +11,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
-@Document("comment")
+@Document("Comment_store")
 @Data
 public class CommentEntity implements Serializable {
     @Serial
@@ -28,4 +28,6 @@ public class CommentEntity implements Serializable {
     private String time;
     private int like;
     private String reviewId;
+    private boolean report;
+    private boolean ban;
 }

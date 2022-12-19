@@ -3,6 +3,7 @@ package com.example.commentservice.query;
 import com.example.commentservice.core.CommentEntity;
 import com.example.commentservice.core.data.CommentRepository;
 import com.example.commentservice.core.event.CommentCreatedEvent;
+import com.example.commentservice.core.event.CommentUpdatedEvent;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,13 @@ public class CommentEventsHandler {
 
     @EventHandler
     public void on(CommentCreatedEvent event){
+        CommentEntity commentEntity = new CommentEntity();
+        BeanUtils.copyProperties(event, commentEntity);
+        commentRepository.save(commentEntity);
+    }
+
+    @EventHandler
+    public void on(CommentUpdatedEvent event){
         CommentEntity commentEntity = new CommentEntity();
         BeanUtils.copyProperties(event, commentEntity);
         commentRepository.save(commentEntity);

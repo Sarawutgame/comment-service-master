@@ -15,4 +15,6 @@ public class CommentCreatedEvent {
     private String time;
     private int like;
     private String reviewId;
+    private boolean report;
+    private boolean ban;
 }

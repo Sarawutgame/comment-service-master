@@ -1,12 +1,10 @@
 package com.example.commentservice.command.rest;
 
 import com.example.commentservice.command.CreateCommentCommand;
+import com.example.commentservice.command.UpdateCommentCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -33,7 +31,10 @@ public class CommentController {
                 .imageId(model.getImageId())
                 .time(model.getTime())
                 .like(model.getLike())
-                .reviewId(model.getReviewId()).build();
+                .reviewId(model.getReviewId())
+                .ban(model.isBan())
+                .report(model.isReport())
+                .build();
 
         String result;
         try{
@@ -43,6 +44,34 @@ public class CommentController {
         }
         return result;
     }
+
+
+    @PutMapping
+    public String updateComment(@RequestBody UpdateCommentModel model){
+        UpdateCommentCommand command = UpdateCommentCommand.builder()
+                ._id(model.get_id())
+                .user(model.getUser())
+                .userid(model.getUserid())
+                .rating(model.getRating())
+                .recommendMenu(model.getRecommendMenu())
+                .description(model.getDescription())
+                .imageId(model.getImageId())
+                .time(model.getTime())
+                .like(model.getLike())
+                .reviewId(model.getReviewId())
+                .ban(model.isBan())
+                .report(model.isReport())
+                .build();
+        String result;
+        try{
+            String idUpdate = commandGateway.sendAndWait(command);
+            result = "Update Complete ID: " + idUpdate;
+        }catch (Exception e){
+            result = e.getLocalizedMessage();
+        }
+        return result;
+    }
+
 
 
 }

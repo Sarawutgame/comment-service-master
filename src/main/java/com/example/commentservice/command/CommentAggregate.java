@@ -1,6 +1,7 @@
 package com.example.commentservice.command;
 
 import com.example.commentservice.core.event.CommentCreatedEvent;
+import com.example.commentservice.core.event.CommentUpdatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -21,6 +22,8 @@ public class CommentAggregate {
     private String time;
     private Integer like;
     private String reviewId;
+    private boolean report;
+    private boolean ban;
 
     public CommentAggregate() {
     }
@@ -38,6 +41,19 @@ public class CommentAggregate {
         AggregateLifecycle.apply(commentCreatedEvent);
     }
 
+    @CommandHandler
+    public void handle(UpdateCommentCommand updateCommentCommand){
+        if(updateCommentCommand.getDescription() == null || updateCommentCommand.getDescription().isBlank()){
+            throw new IllegalArgumentException("Pls Enter Comment");
+        }
+        if(updateCommentCommand.getRecommendMenu() == null || updateCommentCommand.getRecommendMenu().isBlank()){
+            throw new IllegalArgumentException("Please Enter Recommend Menu");
+        }
+        CommentUpdatedEvent commentUpdatedEvent = new CommentUpdatedEvent();
+        BeanUtils.copyProperties(updateCommentCommand, commentUpdatedEvent);
+        AggregateLifecycle.apply(commentUpdatedEvent);
+    }
+
     @EventSourcingHandler
     public void on(CommentCreatedEvent commentCreatedEvent){
         this._id = commentCreatedEvent.get_id();
@@ -50,5 +66,23 @@ public class CommentAggregate {
         this.time = commentCreatedEvent.getTime();
         this.like = commentCreatedEvent.getLike();
         this.reviewId = commentCreatedEvent.getReviewId();
+        this.report = commentCreatedEvent.isReport();
+        this.ban = commentCreatedEvent.isBan();
+    }
+
+    @EventSourcingHandler
+    public void on(CommentUpdatedEvent commentUpdatedEvent){
+        this._id = commentUpdatedEvent.get_id();
+        this.user = commentUpdatedEvent.getUser();
+        this.userid = commentUpdatedEvent.getUserid();
+        this.rating = commentUpdatedEvent.getRating();
+        this.description = commentUpdatedEvent.getDescription();
+        this.recommendMenu = commentUpdatedEvent.getRecommendMenu();
+        this.imageId = commentUpdatedEvent.getImageId();
+        this.time = commentUpdatedEvent.getTime();
+        this.like = commentUpdatedEvent.getLike();
+        this.reviewId = commentUpdatedEvent.getReviewId();
+        this.report = commentUpdatedEvent.isReport();
+        this.ban = commentUpdatedEvent.isBan();
     }
 }
