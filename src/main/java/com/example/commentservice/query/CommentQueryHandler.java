@@ -29,4 +29,17 @@ public class CommentQueryHandler {
         }
         return commentsRest;
     }
+
+    @QueryHandler
+    List<CommentRestModel> handle(FindCommentByReviewIdQuery query){
+        List<CommentRestModel> commentRest =  new ArrayList<>();
+        List<CommentEntity> storedComments = commentRepository
+                .findByReviewId(query.getReviewId());
+        for (CommentEntity commentEntity : storedComments){
+            CommentRestModel commentRestModel = new CommentRestModel();
+            BeanUtils.copyProperties(commentEntity, commentRestModel);
+            commentRest.add(commentRestModel);
+        }
+        return commentRest;
+    }
 }

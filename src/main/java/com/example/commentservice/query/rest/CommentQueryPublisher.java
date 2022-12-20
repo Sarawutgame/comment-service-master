@@ -20,4 +20,11 @@ public class CommentQueryPublisher {
         Object result = rabbitTemplate.convertSendAndReceive("CommentExchange", "allcomment", "hello");
         return ((List<CommentRestModel>) result);
     }
+
+    @GetMapping("/findByReviewId")
+    public List<CommentRestModel> getCommentByReviewId(){
+        Object result = rabbitTemplate.convertSendAndReceive();
+        return ;
+
+    }
 }
