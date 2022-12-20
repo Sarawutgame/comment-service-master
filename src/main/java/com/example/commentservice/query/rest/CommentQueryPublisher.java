@@ -4,6 +4,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,9 +23,9 @@ public class CommentQueryPublisher {
     }
 
     @GetMapping("/findByReviewId")
-    public List<CommentRestModel> getCommentByReviewId(){
-        Object result = rabbitTemplate.convertSendAndReceive();
-        return ;
+    public List<CommentRestModel> getCommentByReviewId(@RequestParam String reviewId){
+        Object result = rabbitTemplate.convertSendAndReceive("CommentExchange", "idcomment", reviewId);
+        return (List<CommentRestModel>) result;
 
     }
 }

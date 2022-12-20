@@ -31,7 +31,7 @@ public class CommentQueryController {
     }
 
     @RabbitListener(queues = "GetCommentByReviewId")
-    public List<CommentRestModel> getCommentByReviewId(@RequestParam String reviewId){
+    public List<CommentRestModel> getCommentByReviewId(String reviewId){
         List<CommentRestModel> comments = queryGateway
                 .query(new FindCommentByReviewIdQuery(reviewId), ResponseTypes.multipleInstancesOf(CommentRestModel.class)).join();
         return comments;
