@@ -3,13 +3,16 @@ package com.example.commentservice.command.rest;
 import com.example.commentservice.command.CreateCommentCommand;
 import com.example.commentservice.command.UpdateCommentCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/comment")
+//@RestController
+//@RequestMapping("/comment")
+@Service
 public class CommentController {
 
     private final CommandGateway commandGateway;
@@ -19,8 +22,9 @@ public class CommentController {
         this.commandGateway = commandGateway;
     }
 
-    @PostMapping
-    public String createComment(@RequestBody CreateCommentModel model){
+//    @PostMapping
+    @RabbitListener(queues = "CreateCommentQueue")
+    public String createComment(CreateCommentModel model){
         CreateCommentCommand command = CreateCommentCommand.builder()
                 ._id(UUID.randomUUID().toString())
                 .user(model.getUser())
@@ -35,7 +39,6 @@ public class CommentController {
                 .ban(model.isBan())
                 .report(model.getReport())
                 .build();
-
         String result;
         try{
             result = commandGateway.sendAndWait(command);
@@ -46,8 +49,9 @@ public class CommentController {
     }
 
 
-    @PutMapping
-    public String updateComment(@RequestBody UpdateCommentModel model){
+//    @PutMapping
+    @RabbitListener(queues = "UpdateCommentQueue")
+    public String updateComment(UpdateCommentModel model){
         UpdateCommentCommand command = UpdateCommentCommand.builder()
                 ._id(model.get_id())
                 .user(model.getUser())

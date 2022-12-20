@@ -2,8 +2,10 @@ package com.example.commentservice.query.rest;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class CommentRestModel {
+public class CommentRestModel implements Serializable {
     private String _id;
     private String user;
     private String userid;

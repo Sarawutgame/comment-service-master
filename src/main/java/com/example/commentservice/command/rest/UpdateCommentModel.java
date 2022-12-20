@@ -2,8 +2,10 @@ package com.example.commentservice.command.rest;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class UpdateCommentModel {
+public class UpdateCommentModel implements Serializable {
     private String _id;
     private String user;
     private String userid;
