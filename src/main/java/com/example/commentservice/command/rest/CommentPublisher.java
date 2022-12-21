@@ -13,12 +13,18 @@ public class CommentPublisher {
     @PostMapping
     public String createComment(@RequestBody CreateCommentModel model){
         Object result = rabbitTemplate.convertSendAndReceive("CommentExchange", "ccomment", model);
+
+        String mess = model.getReviewId() + "__" + model.getRating();
+
+        rabbitTemplate.convertAndSend("ReviewExchange", "uprating", mess);
         return (String) result;
     }
 
     @PutMapping
     public String updateComment(@RequestBody UpdateCommentModel model){
         Object result = rabbitTemplate.convertSendAndReceive("CommentExchange", "ucomment", model);
+        String mess = model.getReviewId() + "__" + model.getRating();
+        rabbitTemplate.convertAndSend("ReviewExchange", "ratingold", mess);
         return "Update Complete";
     }
 }
