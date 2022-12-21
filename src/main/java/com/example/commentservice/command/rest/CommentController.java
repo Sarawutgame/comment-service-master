@@ -107,6 +107,30 @@ public class CommentController {
         }
     }
 
+    @RabbitListener(queues = "AddLike")
+    public void addLike(CommentEntity model){
+        UpdateCommentCommand command = UpdateCommentCommand.builder()
+                ._id(model.get_id())
+                .user(model.getUser())
+                .userid(model.getUserid())
+                .rating(model.getRating())
+                .recommendMenu(model.getRecommendMenu())
+                .description(model.getDescription())
+                .imageId(model.getImageId())
+                .time(model.getTime())
+                .like(model.getLike() + 1)
+                .reviewId(model.getReviewId())
+                .ban(model.isBan())
+                .report(model.getReport())
+                .build();
+//        System.out.println(command.getLike());
+        String result;
+        try {
+            result = commandGateway.sendAndWait(command);
+        }catch (Exception e){
+            result = e.getLocalizedMessage();
+        }
+    }
 
 
 }

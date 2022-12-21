@@ -30,4 +30,12 @@ public class CommentPublisher {
         rabbitTemplate.convertAndSend("ReviewExchange", "ratingold", mess);
         return "Update Complete";
     }
+
+    @PutMapping(value = "/addlike")
+    public void addlike(@RequestParam String commentId){
+        Object query = rabbitTemplate.convertSendAndReceive("CommentExchange", "commentbyid", commentId);
+//        UpdateCommentModel model = (UpdateCommentModel) query;
+        rabbitTemplate.convertAndSend("CommentExchange", "addlike", query);
+    }
+
 }
