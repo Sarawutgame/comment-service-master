@@ -26,7 +26,7 @@ public class CommentQueryController {
 
 //    @GetMapping
     @RabbitListener(queues = "GetAllComment")
-    public List<CommentRestModel> getComments(String messange){
+    public List<CommentRestModel> getComments(String message){
         FindCommentsQuery findCommentsQuery = new FindCommentsQuery();
         List<CommentRestModel> comments = queryGateway
                 .query(findCommentsQuery, ResponseTypes.multipleInstancesOf(CommentRestModel.class)).join();
