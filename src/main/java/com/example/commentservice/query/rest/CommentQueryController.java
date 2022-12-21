@@ -1,6 +1,9 @@
 package com.example.commentservice.query.rest;
 
+import com.example.commentservice.core.CommentEntity;
+import com.example.commentservice.query.FindCommentByIdQuery;
 import com.example.commentservice.query.FindCommentByReviewIdQuery;
+import com.example.commentservice.query.FindCommentByUserIdQuery;
 import com.example.commentservice.query.FindCommentsQuery;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
@@ -34,6 +37,22 @@ public class CommentQueryController {
     public List<CommentRestModel> getCommentByReviewId(String reviewId){
         List<CommentRestModel> comments = queryGateway
                 .query(new FindCommentByReviewIdQuery(reviewId), ResponseTypes.multipleInstancesOf(CommentRestModel.class)).join();
+        return comments;
+    }
+
+    @RabbitListener(queues = "GetCommentById")
+    public CommentEntity getCommentById(String id){
+        CommentEntity comment = queryGateway.query(new FindCommentByIdQuery(id), CommentEntity.class).join();
+        if(comment == null){
+            return new CommentEntity();
+        }
+        return comment;
+    }
+
+    @RabbitListener(queues = "GetCommentByUserId")
+    public List<CommentRestModel> getCommentByUserId(String userId){
+        List<CommentRestModel> comments = queryGateway
+                .query(new FindCommentByUserIdQuery(userId), ResponseTypes.multipleInstancesOf(CommentRestModel.class)).join();
         return comments;
     }
 }

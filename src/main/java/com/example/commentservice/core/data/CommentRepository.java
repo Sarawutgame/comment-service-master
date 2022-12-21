@@ -10,4 +10,10 @@ public interface CommentRepository extends MongoRepository<CommentEntity, String
 //    CommentEntity findByCommentId(String commentId);
     @Query(value = "{'reviewId': ?0}")
     List<CommentEntity> findByReviewId(String reviewId);
+
+    @Query(value = "{'_id': ?0}")
+    CommentEntity findByCommentId(String commentId);
+
+    @Query(value = "{'userId': ?0}")
+    List<CommentEntity> findByUserId(String userId);
 }

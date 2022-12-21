@@ -42,4 +42,24 @@ public class CommentQueryHandler {
         }
         return commentRest;
     }
+
+    @QueryHandler
+    CommentEntity handle(FindCommentByIdQuery query){
+        CommentEntity comment = commentRepository
+                .findByCommentId(query.get_id());
+        return comment;
+    }
+
+    @QueryHandler
+    List<CommentRestModel> handle(FindCommentByUserIdQuery query){
+        List<CommentRestModel> commentRest =  new ArrayList<>();
+        List<CommentEntity> storedComments = commentRepository
+                .findByUserId(query.getUserId());
+        for (CommentEntity commentEntity : storedComments){
+            CommentRestModel commentRestModel = new CommentRestModel();
+            BeanUtils.copyProperties(commentEntity, commentRestModel);
+            commentRest.add(commentRestModel);
+        }
+        return commentRest;
+    }
 }
