@@ -3,7 +3,7 @@ package com.example.commentservice.command.rest;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/comment")
 public class CommentPublisher {

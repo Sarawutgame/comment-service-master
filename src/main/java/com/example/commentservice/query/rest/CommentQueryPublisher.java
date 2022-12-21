@@ -3,13 +3,11 @@ package com.example.commentservice.query.rest;
 import com.example.commentservice.core.CommentEntity;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/comment")
 public class CommentQueryPublisher {
@@ -38,7 +36,7 @@ public class CommentQueryPublisher {
 
     @GetMapping("/findByUserId")
     public List<CommentRestModel> getCommentByUserId(@RequestParam String userId){
-        Object result = rabbitTemplate.convertSendAndReceive("CommentExchange", "commentByUserId", userId);
+        Object result = rabbitTemplate.convertSendAndReceive("CommentExchange", "commentbyuserid", userId);
         return (List<CommentRestModel>) result;
     }
 }
